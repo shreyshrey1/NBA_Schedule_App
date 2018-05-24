@@ -2,11 +2,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import uuidv1 from "uuid";
-import { addTeam } from "../actions/index";
+import { addTeam, deleteTeam } from "../actions/index";
+import { teams } from "../utils/teams";
 
 const mapDispatchToProps = dispatch => {
   return {
-    addTeam: team => dispatch(addTeam(team))
+    addTeam: team => dispatch(addTeam(team)),
+    deleteTeam: team => dispatch(deleteTeam(team))
   };
 };
 
@@ -22,29 +24,37 @@ class ConnectedForm extends Component {
   }
   handleSubmit = (event) => {
     event.preventDefault();
-    const { title } = this.state;
+    const { team } = this.state;
     const id = uuidv1();
     // this.props.addCity({ zipcode, id });
     // this.setState({ title: "" });
   }
   render() {
-    const { title } = this.state;
+    const { team } = this.state;
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="title">Title</label>
-          <input
-            type="text"
-            className="form-control"
-            id="title"
-            value={title}
-            onChange={this.handleChange}
-          />
-        </div>
-        <button type="submit" className="btn btn-success btn-lg">
-          SAVE
-        </button>
-      </form>
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="team">Add Team</label>
+            <input
+              type="text"
+              className="form-control"
+              id="team"
+              value={team}
+              onChange={this.handleChange}
+            />
+          </div>
+          <button type="submit" className="btn btn-success btn-lg">
+            Add
+          </button>
+        </form>
+        {teams.map( (team, i) => {
+          return team.teamName.toLowerCase().includes(this.state.team.toLowerCase())
+            ?(<li key={i}>{team.teamName}</li>)
+            : null
+          }
+        )}
+      </div>
     );
   }
 }
