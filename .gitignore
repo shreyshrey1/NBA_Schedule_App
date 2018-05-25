@@ -19,4 +19,4 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-src/utils/apikeys.jssrc/js/utils/apikeys.js
+src/js/utils/apikeys.js
