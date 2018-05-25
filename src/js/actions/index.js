@@ -4,5 +4,5 @@ const deleteTeam = team => ({ type: DELETE_TEAM, payload: team});
 
 export {
     addTeam,
-    deleteTeam
+    deleteTeam 
 }
