@@ -17,12 +17,6 @@ const rootReducer = (state = initialState, action) => {
                 return state;
             }
             let newteams = [...state.teams, action.payload];
-            let today = new Date();
-            for (let i = 0; i < 7; i++) {
-                console.log("api call")
-                getGames(today, newteams)
-                today.setDate(today.getDate() + 1)
-            }
             return {...state, teams: newteams, loading: false, games: state.games, error: null};
         case FETCH_GAMES_BEGIN:
             return {...state, loading: true, games: state.games, error: null};

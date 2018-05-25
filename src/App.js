@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Form from './js/components/Form'
 import MyTeams from './js/components/MyTeams';
+import MyGames from './js/components/MyGames';
 
 class App extends Component {
   render() {
@@ -17,6 +18,7 @@ class App extends Component {
         </p>
         <Form />
         <MyTeams />
+        <MyGames />
       </div>
     );
   }
