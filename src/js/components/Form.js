@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import uuidv1 from "uuid";
 import { addTeam, deleteTeam } from "../actions/index";
 import { teams } from "../utils/teams";
+import Team from "../components/Team"
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -22,35 +23,25 @@ class ConnectedForm extends Component {
   handleChange = (event) => {
     this.setState({ [event.target.id]: event.target.value });
   }
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const { team } = this.state;
-    const id = uuidv1();
-    // this.props.addCity({ zipcode, id });
-    // this.setState({ title: "" });
-  }
   render() {
     const { team } = this.state;
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="team">Add Team</label>
+          <div className="mdl-textfield mdl-js-textfield">
+            <label htmlFor="team" className="mdl-textfield__label"> Add Team</label>
             <input
               type="text"
-              className="form-control"
+              className="mdl-textfield__input"
               id="team"
               value={team}
               onChange={this.handleChange}
             />
           </div>
-          <button type="submit" className="btn btn-success btn-lg">
-            Add
-          </button>
         </form>
         {teams.map( (team, i) => {
           return team.teamName.toLowerCase().includes(this.state.team.toLowerCase())
-            ?(<li key={i}>{team.teamName}</li>)
+            ?(<Team team={team} />)
             : null
           }
         )}

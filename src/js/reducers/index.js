@@ -8,7 +8,12 @@ const initialState = {
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_TEAM:
-            return {...state, cities: [...state.teams, action.payload],  };
+            if (state.teams.find(elem => {
+                return elem == action.payload;
+            })) {
+                return state;
+            }
+            return {...state, teams: [...state.teams, action.payload],  };
         case DELETE_TEAM:
             let newteams = [];
             for(var i=0; i < state.teams.length; i++) {
