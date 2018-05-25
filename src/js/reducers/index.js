@@ -1,8 +1,11 @@
-import { ADD_TEAM, DELETE_TEAM } from "../constants/action-types";
+import { ADD_TEAM, DELETE_TEAM, FETCH_GAMES_BEGIN, FETCH_GAMES_SUCCESS, FETCH_GAMES_FAILURE } from "../constants/action-types";
+import { getStandings, getGames } from "../utils/sportsApi"
 
 const initialState = {
     teams: [],
-    games: []
+    loading: false,
+    games: [],
+    error: null
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -13,9 +16,22 @@ const rootReducer = (state = initialState, action) => {
             })) {
                 return state;
             }
-            return {...state, teams: [...state.teams, action.payload],  };
+            let newteams = [...state.teams, action.payload];
+            let today = new Date();
+            for (let i = 0; i < 7; i++) {
+                console.log("api call")
+                getGames(today, newteams)
+                today.setDate(today.getDate() + 1)
+            }
+            return {...state, teams: newteams, loading: false, games: state.games, error: null};
+        case FETCH_GAMES_BEGIN:
+            return {...state, loading: true, games: state.games, error: null};
+        case FETCH_GAMES_SUCCESS:
+            console.log("fetch games sucess")
+            let new_games = state.games.concat(action.payload);
+            return {...state, loading: false, games: new_games};
         case DELETE_TEAM:
-            let newteams = [];
+            newteams = [];
             for(var i=0; i < state.teams.length; i++) {
                 if (state.teams[i] != action.payload) {
                     newteams.push(state.teams[i]);

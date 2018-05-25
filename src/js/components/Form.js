@@ -29,7 +29,7 @@ class ConnectedForm extends Component {
       <div>
         <form onSubmit={this.handleSubmit}>
           <div className="mdl-textfield mdl-js-textfield">
-            <label htmlFor="team" className="mdl-textfield__label"> Add Team</label>
+            <label htmlFor="team" className="mdl-textfield__label">Search Teams</label>
             <input
               type="text"
               className="mdl-textfield__input"
@@ -41,7 +41,7 @@ class ConnectedForm extends Component {
         </form>
         {teams.map( (team, i) => {
           return team.teamName.toLowerCase().includes(this.state.team.toLowerCase())
-            ?(<Team team={team} />)
+            ?(<Team add="add" team={team} />)
             : null
           }
         )}

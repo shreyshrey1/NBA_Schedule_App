@@ -11,7 +11,7 @@ const ConnectedMyTeams = ({ teams }) => (
     <ul className="list-group list-group-flush">
         <h1>My Teams</h1>
         {teams.length > 0 ? teams.map(team => (
-            <Team team={team} />
+            <Team add="clear" team={team} />
         )): <h1>No Team Selected </h1>}
     </ul>
 );

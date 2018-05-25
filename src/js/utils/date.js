@@ -1,7 +1,7 @@
 function dateToString(date) {
-    var dd = today.getDate();
-    var mm = today.getMonth()+1; //January is 0!
-    var yyyy = today.getFullYear();
+    var dd = date.getDate();
+    var mm = date.getMonth()+1; //January is 0!
+    var yyyy = date.getFullYear();
     if(dd<10) {
         dd = '0'+dd
     } 
@@ -9,7 +9,7 @@ function dateToString(date) {
     if(mm<10) {
         mm = '0'+mm
     }
-    return  yyy + mm + dd;
+    return  yyyy + mm + dd;
 }
 
 export {
