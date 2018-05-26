@@ -17,7 +17,7 @@ class App extends Component {
         </p>
         <Form />
         <MyTeams />
-        {/* <MyGames /> */}
+        <MyGames />
       </div>
     );
   }
