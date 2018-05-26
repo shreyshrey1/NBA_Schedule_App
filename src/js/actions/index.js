@@ -28,7 +28,6 @@ function fetchGames(date, teams) {
                 "Authorization": "Basic " + btoa(USERNAME + ":" + PASSWORD)
             },
         })
-        .then(handleErrors)
         .then(res => res.json())
         .then(json => {
             if ("gameentry" in json.dailygameschedule) {

@@ -1,6 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { addTeam, deleteTeam } from "../actions/index";
+import styled  from "styled-components"
+
+const ButtonRelative = styled.section`
+    position: relative;
+`;
+const ButtonAbsolute = styled.section`
+    position: absolute;
+    top: -75px;
+    right: 0px;
+`;
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -29,9 +39,13 @@ class ConnectedTeam extends Component {
                         </span>
                     </li>
                 </ul>
-                <button name={this.props.team.teamId} onClick={this.onClickAddTeam} className="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
-                    <i className="material-icons">{this.props.add}</i>
-                </button>
+                <ButtonRelative>
+                    <ButtonAbsolute>
+                        <button name={this.props.team.teamId} onClick={this.onClickAddTeam} className="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                            <i className="material-icons">{this.props.add}</i>
+                        </button>
+                    </ButtonAbsolute>
+                </ButtonRelative>
             </div>
         )
     }

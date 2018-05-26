@@ -1,7 +1,7 @@
 import { ADD_TEAM, DELETE_TEAM, FETCH_GAMES_BEGIN, FETCH_GAMES_SUCCESS, FETCH_GAMES_FAILURE } from "../constants/action-types";
 import { getStandings, getGames } from "../utils/sportsApi"
 
-const initialState = {
+export const initialState = {
     teams: [],
     loading: false,
     games: [],

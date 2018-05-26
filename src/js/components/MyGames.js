@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchGames } from "../actions/index";
+import { bindActionCreators } from 'redux';
 
 const mapStateToProps = state => ({
     teams: state.teams,
@@ -9,11 +10,20 @@ const mapStateToProps = state => ({
     error: state.error
   });
 
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      fetchGames
+    },
+    dispatch
+  )
+};
+
 class MyGames extends React.Component {
     componentDidMount() {
         var today = new Date();
         for (var i = 0; i < 7; i++) {
-            this.props.dispatch(fetchGames(today, this.props.teams));
+            this.props.fetchGames(today, this.props.teams);
             today.setDate(today.getDate() + 1);
         }
     }
@@ -40,4 +50,4 @@ class MyGames extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(MyGames);
+export default connect(mapStateToProps, mapDispatchToProps)(MyGames);
