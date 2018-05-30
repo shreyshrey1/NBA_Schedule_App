@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addTeam, deleteTeam } from "../actions/index";
-import styled  from "styled-components"
+import { bindActionCreators } from 'redux';
+import { addTeam, deleteTeam, fetchGames } from "../actions/index";
+import styled  from "styled-components";
+import { dateToString, teamsToString } from "../utils/date";
 
 const ButtonRelative = styled.section`
     position: relative;
@@ -13,16 +15,40 @@ const ButtonAbsolute = styled.section`
 `;
 
 const mapDispatchToProps = dispatch => {
-    return {
-      addTeam: team => dispatch(addTeam(team)),
-      deleteTeam: team => dispatch(deleteTeam(team))
-    };
+    return bindActionCreators(
+      {
+        addTeam,
+        deleteTeam,
+        fetchGames
+      },
+      dispatch
+    )
   };
+
+const mapStateToProps = state => ({
+    teams: state.teams,
+    games: state.games,
+    loading: state.loading,
+    error: state.error
+});
 
 class ConnectedTeam extends Component {
     onClickAddTeam = (e) => {
         if (this.props.add == 'add') {
             this.props.addTeam(this.props.team)
+            var today = new Date();
+            if (this.props.teams.length == 0) {
+                for (var i = 0; i < 7; i++) {
+                    this.props.fetchGames(dateToString(today), teamsToString([this.props.team]));
+                    today.setDate(today.getDate() + 1);
+                }
+            }
+            if (this.props.teams.length != 0) {
+                for (var i = 0; i < 7; i++) {
+                    this.props.fetchGames(dateToString(today), teamsToString(this.props.teams));
+                    today.setDate(today.getDate() + 1);
+                }
+            }
         }
         else {
             this.props.deleteTeam(this.props.team)
@@ -50,6 +76,6 @@ class ConnectedTeam extends Component {
         )
     }
 }
-const Team = connect(null, mapDispatchToProps)(ConnectedTeam);
+const Team = connect(mapStateToProps, mapDispatchToProps)(ConnectedTeam);
 
 export default Team;

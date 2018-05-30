@@ -9,21 +9,9 @@ const fetchGamesSuccess = games => ({ type: FETCH_GAMES_SUCCESS, payload: games 
 const fetchGamesFailure = error => ({ type: FETCH_GAMES_FAILURE, payload: error });
 
 function fetchGames(date, teams) {
-    if (teams.length == 0) {
-        return [];
-    }
-    for (var i = 0; i < teams.length; i++) {
-        if (i == 0) {
-            var teams_str = teams[i].abbreviation;
-        }
-        else {
-            teams_str = teams_str + ',' + teams[i].abbreviation;
-        }
-    }
-    var date_str = dateToString(date);
     return dispatch => {
         dispatch(fetchGamesBegin());
-        return fetch('https://api.mysportsfeeds.com/v1.2/pull/nba/latest/daily_game_schedule.json?fordate=' + date_str + '&team=' + teams_str, {
+        return fetch('https://api.mysportsfeeds.com/v1.2/pull/nba/latest/daily_game_schedule.json?fordate=' + date + '&team=' + teams, {
             headers: {
                 "Authorization": "Basic " + btoa(USERNAME + ":" + PASSWORD)
             },
@@ -32,7 +20,6 @@ function fetchGames(date, teams) {
         .then(json => {
             if ("gameentry" in json.dailygameschedule) {
                 dispatch(fetchGamesSuccess(json.dailygameschedule.gameentry));
-                //return json.dailygameschedule.gameentry;
             }
         })
         .catch(error => dispatch(fetchGamesFailure(error)));
