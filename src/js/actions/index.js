@@ -21,6 +21,7 @@ function fetchGames(date, teams) {
             if ("gameentry" in json.dailygameschedule) {
                 dispatch(fetchGamesSuccess(json.dailygameschedule.gameentry));
             }
+            dispatch(fetchGamesSuccess([]))
         })
         .catch(error => dispatch(fetchGamesFailure(error)));
     };

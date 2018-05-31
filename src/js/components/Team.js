@@ -37,17 +37,10 @@ class ConnectedTeam extends Component {
         if (this.props.add == 'add') {
             this.props.addTeam(this.props.team)
             var today = new Date();
-            if (this.props.teams.length == 0) {
-                for (var i = 0; i < 7; i++) {
-                    this.props.fetchGames(dateToString(today), teamsToString([this.props.team]));
-                    today.setDate(today.getDate() + 1);
-                }
-            }
-            if (this.props.teams.length != 0) {
-                for (var i = 0; i < 7; i++) {
-                    this.props.fetchGames(dateToString(today), teamsToString(this.props.teams));
-                    today.setDate(today.getDate() + 1);
-                }
+            for (var i = 0; i < 7; i++) {
+                console.log(this.props.teams)
+                this.props.fetchGames(dateToString(today), teamsToString(this.props.teams.concat([this.props.team])));
+                today.setDate(today.getDate() + 1);
             }
         }
         else {

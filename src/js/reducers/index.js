@@ -21,9 +21,15 @@ const rootReducer = (state = initialState, action) => {
         case FETCH_GAMES_BEGIN:
             return {...state, loading: true, games: state.games, error: null};
         case FETCH_GAMES_SUCCESS:
-            console.log("fetch games sucess")
-            let new_games = state.games.concat(action.payload);
-            return {...state, loading: false, games: new_games};
+            let gameids = state.games.map(game => game.id);
+            console.log(gameids);
+            let newgames = state.games;
+            for (var i = 0; i < action.payload.length; i++) {
+                if (!(gameids.includes(action.payload[i].id))) {
+                    newgames = newgames.concat(action.payload[i])
+                }
+            }
+            return {...state, loading: false, games: newgames };
         case DELETE_TEAM:
             newteams = [];
             for(var i=0; i < state.teams.length; i++) {
@@ -31,8 +37,8 @@ const rootReducer = (state = initialState, action) => {
                     newteams.push(state.teams[i]);
                 }
             }
-            let newgames = []
-            for(var i=0; i < state.games.length; i++) {
+            newgames = []
+            for(i=0; i < state.games.length; i++) {
                 if (state.games[i] != action.payload) {
                     newgames.push(state.teams[i]);
                 }
@@ -42,5 +48,12 @@ const rootReducer = (state = initialState, action) => {
             return state;
     }
 };
+
+
+var unique = (arrArg) => {
+    return arrArg.filter((elem, pos, arr) => {
+        return arr.indexOf(elem) == pos;
+    });
+}
 
 export default rootReducer;
