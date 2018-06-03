@@ -34,17 +34,21 @@ const mapStateToProps = state => ({
 
 class ConnectedTeam extends Component {
     onClickAddTeam = (e) => {
+        var today = new Date();
         if (this.props.add == 'add') {
             this.props.addTeam(this.props.team)
-            var today = new Date();
             for (var i = 0; i < 7; i++) {
-                console.log(this.props.teams)
                 this.props.fetchGames(dateToString(today), teamsToString(this.props.teams.concat([this.props.team])));
                 today.setDate(today.getDate() + 1);
             }
         }
         else {
             this.props.deleteTeam(this.props.team)
+            let new_teams = this.props.teams.filter(el => el.teamId != this.props.team.teamId)
+            for (var i = 0; i < 7; i++) {
+                this.props.fetchGames(dateToString(today), teamsToString(new_teams));
+                today.setDate(today.getDate() + 1);
+            }
         }
     }
     render () {
