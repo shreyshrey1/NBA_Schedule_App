@@ -6,8 +6,8 @@ import styled from "styled-components";
 
 const MyTeamsStyled = styled.section`
     position: absolute;
-    top: 600px;
-    left: -30px;
+    top: 180px;
+    left: 300px;
     width: 350px;
 `;
 

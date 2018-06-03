@@ -1,11 +1,14 @@
-import { ADD_TEAM, DELETE_TEAM, FETCH_GAMES_BEGIN, FETCH_GAMES_SUCCESS, FETCH_GAMES_FAILURE } from "../constants/action-types";
+import { ADD_TEAM, DELETE_TEAM, FETCH_GAMES_BEGIN, FETCH_GAMES_SUCCESS, FETCH_GAMES_FAILURE,
+         FETCH_STANDINGS_BEGIN, FETCH_STANDINGS_SUCCESS, FETCH_STANDINGS_FAILURE} from "../constants/action-types";
 import { getStandings, getGames } from "../utils/sportsApi"
 
 export const initialState = {
     teams: [],
-    loading: false,
     games: [],
-    error: null
+    gameloading: false,
+    standingsloading: false,
+    error: null,
+    standings: []
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -17,19 +20,26 @@ const rootReducer = (state = initialState, action) => {
                 return state;
             }
             let newteams = [...state.teams, action.payload];
-            return {...state, teams: newteams, loading: false, games: state.games, error: null};
+            return {...state, teams: newteams };
         case FETCH_GAMES_BEGIN:
-            return {...state, loading: true, games: state.games, error: null};
+            return {...state, gameloading: true};
         case FETCH_GAMES_SUCCESS:
             let gameids = state.games.map(game => game.id);
-            console.log(gameids);
             let newgames = state.games;
             for (var i = 0; i < action.payload.length; i++) {
                 if (!(gameids.includes(action.payload[i].id))) {
                     newgames = newgames.concat(action.payload[i])
                 }
             }
-            return {...state, loading: false, games: newgames };
+            return {...state, gameloading: false, games: newgames, error: null, standings: state.standings};
+        case FETCH_GAMES_FAILURE:
+            return {...state, gameloading: false, error: action.payload}
+        case FETCH_STANDINGS_BEGIN:
+            return {...state, standingsloading: true};
+        case FETCH_STANDINGS_SUCCESS:
+            return {...state, standingsloading: false, error: null, standings: action.payload };
+        case FETCH_STANDINGS_FAILURE:
+            return {...state, standingsloading: false, error: action.payload}
         case DELETE_TEAM:
             newteams = [];
             for(var i=0; i < state.teams.length; i++) {
@@ -37,13 +47,7 @@ const rootReducer = (state = initialState, action) => {
                     newteams.push(state.teams[i]);
                 }
             }
-            newgames = []
-            for(i=0; i < state.games.length; i++) {
-                if (state.games[i] != action.payload) {
-                    newgames.push(state.teams[i]);
-                }
-            }
-            return {...state, teams: newteams, games: newgames };
+            return {...state, teams: newteams, games: [] };
         default:
             return state;
     }
