@@ -2,8 +2,25 @@ import { ADD_TEAM, DELETE_TEAM, FETCH_GAMES_BEGIN, FETCH_GAMES_SUCCESS, FETCH_GA
          FETCH_STANDINGS_BEGIN, FETCH_STANDINGS_SUCCESS, FETCH_STANDINGS_FAILURE} from "../constants/action-types";
 import { getStandings, getGames } from "../utils/sportsApi"
 
+function storeTeams(teams) {
+    teams.map((el, index) => {
+        localStorage.setItem(String(index), JSON.stringify(el))
+    })
+}
+
+function getTeams() {
+    let index = 0;
+    let ret = [];
+    while (localStorage.getItem(String(index)) != null) {
+        var temp = localStorage.getItem(String(index));
+        ret.push(JSON.parse(temp));
+        index++;
+    }
+    return ret
+}
+
 export const initialState = {
-    teams: [],
+    teams: getTeams(),
     games: [],
     gameloading: false,
     standingsloading: false,
@@ -20,6 +37,8 @@ const rootReducer = (state = initialState, action) => {
                 return state;
             }
             let newteams = [...state.teams, action.payload];
+            localStorage.clear();
+            storeTeams(newteams);
             return {...state, teams: newteams };
         case FETCH_GAMES_BEGIN:
             return {...state, gameloading: true};
@@ -47,6 +66,8 @@ const rootReducer = (state = initialState, action) => {
                     newteams.push(state.teams[i]);
                 }
             }
+            localStorage.clear()
+            storeTeams(newteams);
             return {...state, teams: newteams, games: [] };
         default:
             return state;
