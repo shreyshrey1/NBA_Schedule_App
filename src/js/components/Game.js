@@ -11,6 +11,7 @@ class Game extends Component {
         <div>Home: {this.props.home}</div>
         <div>Away: {this.props.away}</div>
         <div>Location: {this.props.location}</div>
+        <div>Time: {this.props.time} ET </div>
       </div>
     )
   }

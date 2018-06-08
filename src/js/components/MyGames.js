@@ -30,6 +30,13 @@ const mapDispatchToProps = dispatch => {
 };
 
 class MyGames extends React.Component {
+  componentDidMount() {
+    let today = new Date();
+      for (var i = 0; i < 7; i++) {
+          this.props.fetchGames(dateToString(today), teamsToString(this.props.teams));
+          today.setDate(today.getDate() + 1);
+      }
+  }
   render() {
     const { teams, games, loading, error } = this.props;
     
@@ -52,7 +59,7 @@ class MyGames extends React.Component {
             {games.length != 0 ?
             games.map(game =>
               <div>
-                <Game date={game.date} home={game.homeTeam.Name} away={game.awayTeam.Name} location={game.location}/>
+                <Game time={game.time} date={game.date} home={game.homeTeam.Name} away={game.awayTeam.Name} location={game.location}/>
                 <br/>
               </div>
             ) :

@@ -19,6 +19,23 @@ function getTeams() {
     return ret
 }
 
+// function storeGames(games) {
+//     games.map((el, index) => {
+//         localStorage.setItem(String(index), JSON.stringify(el))
+//     })
+// }
+
+// function getGames() {
+//     let index = 0;
+//     let ret = [];
+//     while (localStorage.getItem(String(index)) != null) {
+//         var temp = localStorage.getItem(String(index));
+//         ret.push(JSON.parse(temp));
+//         index++;
+//     }
+//     return ret
+// }
+
 export const initialState = {
     teams: getTeams(),
     games: [],
